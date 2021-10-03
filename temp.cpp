@@ -13,9 +13,9 @@ int main (){
     cout<<"Mi Vacuna"<<endl;
     cout<<"Bienvenido, ¿Bajo que rol ingresa?"<<endl;
     cout<<"Digite la opción deseada"<<endl;
-    cout<<"1) Ministerio de salud"<<endl;
-    cout<<"2) Beneficiario"<<endl;
-    cout<<"3) Nuevo Usuario"<<endl;
+    cout<<"1) Ministerio de salud"<<endl; //controlador ministerio
+    cout<<"2) Beneficiario"<<endl; //controlador ben => editar datos, consultar cita vacunación 
+    cout<<"3) Nuevo Usuario"<<endl; //controlador nuevo
     cout<<"0) salir"<<endl;
     cin>> op;
     switch (op){
@@ -134,7 +134,7 @@ int main (){
           default:
             break;
         }
-        cout<<"Digite la fecha de primera dosis"<<endl;
+        cout<<"Digite la fecha de primera dosis"<<endl; // opcinal
         cout<<"Digite la fecha de segunda dosis"<<endl; //opcional
       }break;
       case 4:
@@ -150,8 +150,8 @@ int main (){
 
 
   //cout mostrando cargado de datos al sistema satisfactorio
-  cout<<"1) Agregrar usuario al sistema"<<endl;
-  cout<<"2) Modificar usuario al sistema"<<endl;
+  cout<<"1) Agregrar usuario al sistema"<<endl;//listo
+  cout<<"2) Modificar usuario al sistema"<<endl;//no modificar clave, fecha nacimiento, nombres, apellidos
   cout<<"3) Eliminar usuario al sistema"<<endl;
   cout<<"4) Agregrar ips al sistema"<<endl;
   cout<<"5) Modificar ips al sistema"<<endl;

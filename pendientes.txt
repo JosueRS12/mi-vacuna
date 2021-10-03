@@ -1,0 +1,7 @@
+1. reducir cantidad de ciudades posibles (las del doc...);
+1. reducir cantidad de paises posibles (las de multilista);
+2. eps, ips...
+3. guardar vectores (otros), en csv c++.
+4. ips persona ?
+5. fechas ?
+
