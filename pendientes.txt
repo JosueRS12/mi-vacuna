@@ -1,7 +1,26 @@
-1. reducir cantidad de ciudades posibles (las del doc...);
-1. reducir cantidad de paises posibles (las de multilista);
-2. eps, ips...
-3. guardar vectores (otros), en csv c++.
-4. ips persona ?
-5. fechas ?
+1. eps, ips...
+2. ips persona... toca ponerselo?
+4. CRUD registro eps.
+5. CRUD registro ips.
+6. simulación => se rompe.
+7. probar multilista => se rompe.
+8. probar consultas.
+9. lectura csv eps e ips 
+10. tabla de rompimiento par relación ips - persona, eps - ips...
 
+
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡FILE EPS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+ready{
+  - arbol.
+  - lectura csv => persona (arbol, pila).
+  - pila.
+  - ips (getters,set)
+}
+
+
+opcional{
+  try catch{
+    1) beneficiario, cuando no existe la clave buscada... -> arbolRN
+  }
+}

@@ -2,6 +2,12 @@
 #include <cstdlib>
 #include <wchar.h>
 #include "./views/usuarioNuevo.h"
+#include "./views/beneficiario.h"
+#include "./views/ministerio.h"
+#include "./dataStructures/arbolesRN.h"
+#include "./models/files/filePersona.h"
+#include "./dataStructures/multilista.h"
+#include "./models/Persona.h"
 //#include <./view>
   //cout.fill('-');
   //cout<<setw(15)<<" holaaa"<<endl;
@@ -9,7 +15,14 @@
   //gotoxy(x,y);
 using namespace std;
 int main (){
-  int op,op2,op3,op4,op5,op6,op7;
+  int op, idClave;
+  Multilista *multiPersona = NULL;
+  Persona *p=NULL; //=>apuntador persona auxiliar...
+  ARBOL<int,Persona> *arbolRN = NULL; //mirar si se puede hacer como apuntador
+  FilePersona filePersona;
+  Pila<Persona> *pilaPer = NULL;
+  arbolRN = filePersona.readFile();
+
   do{
     cout<<"Mi Vacuna"<<endl;
     cout<<"Bienvenido, ¿Bajo que rol ingresa?"<<endl;
@@ -24,33 +37,47 @@ int main (){
     switch (op){
       case 1:
       {
+        switch(menuMinisterio()){
+          case 1:
+            {
+              multiPersona = simulacion(arbolRN); 
+            }
+            break;
+          case 2://consulta
+            break;
+          default: cout<<"Que sueño"<<endl;
+            break;
+        }
       }break;
       case 2:
       {
-
+        cout<<"Digite su numero de identificación"<<endl;
+        cin>>idClave;
+        p = arbolRN->buscarNodo(idClave);
+        switch(menuBeneficiario()){
+          case 1:beneficiarioModificar(p); 
+            break;
+          case 2:beneficiarioEliminar(p);
+            break;
+          case 3://consultarUsuario
+            break;
+          default: cout<<"Que sueño"<<endl;
+            break;
+        }
+        //persona
       }break;
-      case 3: usuarioNuevo();
-      break;
-      case 4:
+      case 3:
       {
-
-      }break;
+        Persona per = usuarioNuevo();
+        arbolRN->ins_arbol(per.getNumeroId(), per);
+      }
+      break;
       default: cout<<"Saliendo";
         break;
     }
   } while(op!=0);
-
-
-
-
-  ////cout mostrando cargado de datos al sistema satisfactorio
-  //cout<<"1) Agregrar usuario al sistema"<<endl;//listo
-  //cout<<"2) Modificar usuario al sistema"<<endl;//no modificar clave, fecha nacimiento, nombres, apellidos
-  //cout<<"3) Eliminar usuario al sistema"<<endl;
-  //cout<<"4) Agregrar ips al sistema"<<endl;
-  //cout<<"5) Modificar ips al sistema"<<endl;
-  //cout<<"6) Eliminar ips al sistema"<<endl;
-  //cout<<"7)"<<endl;
+  pilaPer = arbolRN->obtenerPila( arbolRN->raiz_arbol() ); //=> se obtiene pila apartir de un arbol
+  filePersona.createFile(*pilaPer);
 
   return 0;
 }

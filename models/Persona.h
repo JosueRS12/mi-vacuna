@@ -29,7 +29,27 @@ class Persona{
   Date fechaSegundaD;
 
   public:
-  Persona();
+  Persona(){
+    nombre = " ";
+    apellido = " ";
+    tipoId = " ";
+    numeroId = 0;
+    sexo = ' ';
+    celular = " ";
+    fijo = " ";
+    correo = " ";
+    CiudadN = " ";
+    paisN = " ";
+    ciudadR = " "; 
+    direccion = " ";
+    barrio = " ";
+    actividad = " ";
+    nombreEps = " ";
+    tipoVacuna = " ";
+    fechaN = Date();
+    fechaPrimeraD = Date();
+    fechaSegundaD = Date();
+  }
   string getNombre();
   void setNombre(string nombre); 
   string getApellido(); 
@@ -69,10 +89,6 @@ class Persona{
   void setFechaSegundaD(Date date); 
   Date getFechaSegundaD(); 
 };
-
-Persona :: Persona(){
-
-}
 
 string Persona :: getNombre() {
   return nombre;

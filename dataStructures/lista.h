@@ -24,14 +24,28 @@ class Lista{
     tam = 0;
   }
   //metodos
+  
+  Nodo<T> *getHead(); 
+  void setHead(Nodo<T> *); 
   bool listaVacia(); //
   int tamLista(); //
-  T obtenerDato(int pos); // 
+  T obtenerDato(T); // 
+  bool existe(T);
   bool eliminar(int pos); // 
   void insertarInicio(T infoNueva); //
   void insertarPos(T infoNueva, int pos);
   bool modificar(T, int pos);
 };
+
+template <class T>
+void Lista<T> :: setHead(Nodo<T> *p){
+  this->head = p;
+} 
+
+template <class T>
+Nodo<T> *Lista<T> :: getHead(){
+  return head;
+} 
 
 template <class T>
 bool Lista<T> :: listaVacia(){
@@ -49,13 +63,26 @@ int Lista<T> :: tamLista(){
 }
 
 template <class T>
-T Lista<T> :: obtenerDato(int pos){
+T Lista<T> :: obtenerDato(T inf){
   Nodo<T> *nodo = head;
-  for(int i = 0; i<pos; i++){
-    nodo = nodo -> sig; 
+  while(nodo != NULL){
+    if(nodo->info = inf)
+      return nodo->info; //nodo->info => persona.get()
+    nodo = nodo -> sig;
   }
-  return nodo -> info; //
+  return NULL;
 } 
+
+template <class T>
+bool Lista<T> :: existe(T inf){
+  Nodo<T> *nodo = head;
+  while(nodo != NULL){
+    if(nodo->info = inf)
+      return true;
+    nodo = nodo -> sig;
+  }
+  return false;
+}
 
 template <class T>
 bool Lista<T> :: eliminar(int pos){

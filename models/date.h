@@ -10,7 +10,11 @@ class Date{
   int month;
   int year;
   public:
-  Date();
+  Date(){
+    day = 0;
+    month = 0;
+    year = 0;
+  }
   int getDay();
   void setDay(int);
   int getMonth();
@@ -18,10 +22,6 @@ class Date{
   int getYear();
   void setYear(int);
 };
-
-Date :: Date(){
-
-}
 
 int Date ::getDay() {
     return day;

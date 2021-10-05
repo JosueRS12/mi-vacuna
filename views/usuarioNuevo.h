@@ -3,19 +3,18 @@
 #include <iostream>
 #include <cstdlib>
 #include <stdio.h>
+#include <wchar.h>
 #include "../models/Persona.h"
 #include "../models/date.h"
 #include <string>
 
 using namespace std;
 
-void usuarioNuevo(){
+Persona usuarioNuevo(){
   Persona p;
   Date date; 
-  int op,op2,op3, readInt;
+  int op, readInt;
   string readStr;
-  char readS[50];
-  char readChar;
 
   cout<<"Digite el nombre: "<<endl;
   getline(cin, readStr);
@@ -63,11 +62,61 @@ void usuarioNuevo(){
   getline(cin, readStr);
   p.setCiudadN(readStr);
   cout<<"Digite el país de nacimiento"<<endl;
-  getline(cin, readStr);
-  p.setPaisN(readStr);
+  cout<<"1) Colombia"<<endl;
+  cout<<"2) Francia"<<endl;
+  cout<<"3) Venezuela"<<endl;
+  cout<<"4) Brasil"<<endl;
+  cin>>op;
+  cin.ignore();
+  switch (op){
+    case 1:
+      {
+        p.setPaisN("colombia");
+      }break;
+    case 2:
+      {
+        p.setPaisN("Francia");
+      }break;
+    case 3:
+      {
+        p.setPaisN("Venezuela");
+      }break;
+    case 4:
+      {
+        p.setPaisN("Brasil");
+      }break;
+    default:
+      cout<<"vuelva pronto"<<endl;
+      break;
+  }
   cout<<"Digite la ciudad de residencia"<<endl;
-  getline(cin, readStr);
-  p.setCiudadR(readStr);
+  cout<<"1) Bogota"<<endl;
+  cout<<"2) Cali"<<endl;
+  cout<<"3) Medellin"<<endl;
+  cout<<"4) Barranquilla"<<endl;
+  cin>>op;
+  cin.ignore();
+  switch (op){
+    case 1:
+      {
+        p.setCiudadR("bogota");
+      }break;
+    case 2:
+      {
+        p.setCiudadR("cali");
+      }break;
+    case 3:
+      {
+        p.setCiudadR("medellin");
+      }break;
+    case 4:
+      {
+        p.setCiudadR("barranquilla");
+      }break;
+    default:
+      cout<<"vuelva pronto"<<endl;
+      break;
+  }
   cout<<"Digite la dirección"<<endl;
   getline(cin, readStr);
   p.setDireccion(readStr);
@@ -112,8 +161,8 @@ void usuarioNuevo(){
   cout<<"3) Nueva "<<endl;
   cout<<"4) Cafe Salud"<<endl;
   cout<<"5) Famisanar "<<endl;
-  cin>>op2;
-  switch (op2){
+  cin>>op;
+  switch (op){
     case 1:
       {
         p.setNombreEps("compensar");
@@ -146,8 +195,8 @@ void usuarioNuevo(){
   cout<<"5) Sputnik "<<endl;
   cout<<"6) Sinovac "<<endl;
   cout<<"7) sin vacunar"<<endl;
-  cin>>op3;
-  switch (op3){
+  cin>>op;
+  switch (op){
     case 1:
       {
         p.setTipoVacuna("pfizer");
@@ -172,14 +221,10 @@ void usuarioNuevo(){
       {
         p.setTipoVacuna("sinovac");
       }break;
-    case 7:
-      {
-        p.setTipoVacuna("ninguno");
-      }break;
     default:
       break;
   }
-  if(p.getTipoVacuna() != "ninguno"){
+  if(p.getTipoVacuna() != " "){
     cout<<"Digite la fecha de primera dosis"<<endl; // opcinal
     cout<<"dia"<<endl;
     cin>>readInt;
@@ -196,7 +241,7 @@ void usuarioNuevo(){
     cout<<"¿Ya se aplicó la segunda dósis"<<endl;
     cout<<"1) si. 2) no"<<endl;
     cin>>dosis;
-    if(dosis){
+    if(dosis == 1){
       if(p.getTipoVacuna() != "johnson"){
         cout<<"Digite la fecha de segunda dosis"<<endl; //opcional
         cout<<"dia"<<endl;
@@ -219,5 +264,6 @@ void usuarioNuevo(){
       p.setFechaSegundaD(date);
     }
   }
+  return p;
 };
 #endif

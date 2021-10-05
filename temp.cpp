@@ -110,53 +110,68 @@ int main (){
         cout<<"5) Sputnik "<<endl;
         cout<<"6) Sinovac "<<endl;
         cin>>op3;
-        switch (op3){
-          case 1:
-            {
-            }break;
-          case 2:
-            {
 
-            }break;
-          case 3:
-            {
 
-            }break;
-          case 4:
-            {
-            }break;
-          case 5:
-            {
-            }break;
-          case 6:
-            {
-            }break;
-          default:
-            break;
+    cout<<"hola gonorreas"<<endl;
+    // File pointer
+    fstream fin;
+    Pila<string> pila;
+    char sexo[1];
+  
+    // Open an existing file
+    fin.open("./files/persona.csv", ios::in);
+    cout<<"hola gonorreas 2.0"<<endl;
+  
+    // Read the Data from the file
+    // as String Vector
+    string line, word, temp;
+    //!fin.eof() 
+    while (!fin.eof()){ //cada vez que se ejecuta, lee una fila del csv
+        // read an entire row and
+        // store it in a string variable 'line'
+        getline(fin, line);
+  
+        // used for breaking words
+        stringstream s(line);
+  
+        // read every column data of a row and
+        // store it in a string variable, 'word'
+        cout<<"line: "<<line<<endl;
+        while (getline(s, word, ',')) {
+  
+            // add all the column data
+            // of a row to a vector
+            pila.push(word);
+            cout<<"word: "<<word<<endl;
         }
-        cout<<"Digite la fecha de primera dosis"<<endl; // opcinal
-        cout<<"Digite la fecha de segunda dosis"<<endl; //opcional
-      }break;
-      case 4:
-      {
-
-      }break;
-      default: cout<<"Saliendo";
-        break;
+  
+        cout<<"cualquier cosa "<<endl;
+        persona.getFechaSegundaD().setYear( stoi(pila.pop()) );
+        persona.getFechaSegundaD().setMonth( stoi(pila.pop()) ); 
+        persona.getFechaSegundaD().setDay( stoi(pila.pop()) ); 
+        persona.getFechaPrimeraD().setYear( stoi(pila.pop()) ); 
+        persona.getFechaPrimeraD().setMonth( stoi(pila.pop()) ); 
+        persona.getFechaPrimeraD().setDay( stoi(pila.pop()) ); 
+        persona.getFechaN().setYear( stoi(pila.pop()) ); 
+        persona.getFechaN().setMonth( stoi(pila.pop()) ); 
+        persona.getFechaN().setDay( stoi(pila.pop()) ); //misdudas
+        persona.setTipoVacuna( pila.pop() ); 
+        persona.setNombreEps( pila.pop() ); 
+        persona.setActividad( pila.pop() ); 
+        persona.setBarrio( pila.pop() ); 
+        persona.setDireccion( pila.pop() ); 
+        persona.setCiudadR( pila.pop() ); 
+        persona.setPaisN( pila.pop() ); 
+        persona.setCiudadN( pila.pop() ); 
+        persona.setCorreo( pila.pop() ); 
+        persona.setFijo( pila.pop() ); 
+        persona.setCelular( pila.pop() ); 
+        strcpy(sexo, pila.pop().c_str());
+        persona.setSexo(sexo[0]); 
+        persona.setNumeroId( stoi(pila.pop()) ); 
+        persona.setTipoId( pila.pop() ); 
+        persona.setApellido( pila.pop() ); 
+        persona.setNombre( pila.pop() );
+        //arbolRN.ins_arbol(persona.getNumeroId(),persona);
     }
-  } while(op!=0);
-
-
-
-
-  //cout mostrando cargado de datos al sistema satisfactorio
-  cout<<"1) Agregrar usuario al sistema"<<endl;//listo
-  cout<<"2) Modificar usuario al sistema"<<endl;//no modificar clave, fecha nacimiento, nombres, apellidos
-  cout<<"3) Eliminar usuario al sistema"<<endl;
-  cout<<"4) Agregrar ips al sistema"<<endl;
-  cout<<"5) Modificar ips al sistema"<<endl;
-  cout<<"6) Eliminar ips al sistema"<<endl;
-  cout<<"7)"<<endl;
-
-  return 0;
-}
+    cout<<"salido fichero"<<endl;
