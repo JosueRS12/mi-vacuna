@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include "../../dataStructures/arbolesRN.h"
 #include "../../dataStructures/pila.h"
+#include "../date.h"
 #include "../Persona.h"
 using namespace std;
 
@@ -72,21 +73,27 @@ ARBOL<int,Persona> *FilePersona :: readFile(){
     char sexo[1];
     while(getline(file,line)) {
       stringstream s(line);
+      Date date = Date();
       while (getline(s, word, ',')) {
 
           // add all the column data
           // of a row to a vector
           pila.push(word);
       }
-      persona.getFechaSegundaD().setYear( stoi(pila.pop()) );
-      persona.getFechaSegundaD().setMonth( stoi(pila.pop()) ); 
-      persona.getFechaSegundaD().setDay( stoi(pila.pop()) ); 
-      persona.getFechaPrimeraD().setYear( stoi(pila.pop()) ); 
-      persona.getFechaPrimeraD().setMonth( stoi(pila.pop()) ); 
-      persona.getFechaPrimeraD().setDay( stoi(pila.pop()) ); 
-      persona.getFechaN().setYear( stoi(pila.pop()) ); 
-      persona.getFechaN().setMonth( stoi(pila.pop()) ); 
-      persona.getFechaN().setDay( stoi(pila.pop()) ); //misdudas
+      date.setYear( stoi(pila.pop()) ); //year
+      date.setMonth( stoi(pila.pop()) ); //month
+      date.setDay( stoi(pila.pop()) ); //day
+      persona.setFechaSegundaD(date); 
+      date.setYear( stoi(pila.pop()) ); //year
+      date.setMonth( stoi(pila.pop()) ); //month
+      date.setDay( stoi(pila.pop()) ); //day
+      persona.setFechaPrimeraD(date); 
+
+      date.setYear( stoi(pila.pop()) ); //year
+      date.setMonth( stoi(pila.pop()) ); //month
+      date.setDay( stoi(pila.pop()) ); //day
+      persona.setFechaN(date); //month
+
       persona.setTipoVacuna( pila.pop() ); 
       persona.setNombreEps( pila.pop() ); 
       persona.setActividad( pila.pop() ); 

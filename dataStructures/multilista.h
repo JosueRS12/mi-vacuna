@@ -11,27 +11,33 @@
 using namespace std;
 
 struct Personita{
-  Persona *p;
-  Personita *sigSexo, *sigEdad, *sigActividad, *sigPaisN, *sigCiudadR, *sigEps;
+  Persona p;
+  int sigSexo, sigEdad, sigActividad, sigPaisN, sigCiudadR, sigEps;
 };
 
 struct Cabecera{
-  Personita *head;
+  int head;
   string tipo;
 };
 
 class Multilista{
-  Nodo<Personita> *headPersonitas;
-  time_t now = time(0);
-  tm *ltm = localtime(&now);
-  int cYear = 1900+ltm->tm_year; 
+  time_t now;
+  tm *ltm;
+  int cYear; 
   Personita *personita;
   Cabecera *cabeceraSexo, *cabeceraEdad, *cabeceraActividad, *cabeceraPaisN, *cabeceraCiudadR, *cabeceraEps;
-  Lista<Personita> listaPersonitas; 
+  Personita *listaPersonitas; 
   int tam;
+  //int posLibre;
 
   public:
-  Multilista(){
+  int posLibre;
+  Multilista(int tam){
+    posLibre = 0;
+    listaPersonitas = new Personita[tam];
+    now = time(0);
+    ltm = localtime(&now);
+    cYear = 1900+ltm->tm_year; 
     tam = 0;
     cabeceraSexo = new Cabecera[2]; 
     cabeceraEdad = new Cabecera[8]; 
@@ -39,634 +45,660 @@ class Multilista{
     cabeceraPaisN = new Cabecera[4]; 
     cabeceraCiudadR = new Cabecera[4]; 
     cabeceraEps = new Cabecera[5]; 
-    cabeceraSexo[0] = {NULL, "m"};
-    cabeceraSexo[1] = {NULL, "f"};
-    cabeceraEdad[0] = {NULL, "20"};
-    cabeceraEdad[1] = {NULL, "20-29"};
-    cabeceraEdad[2] = {NULL, "30-39"};
-    cabeceraEdad[3] = {NULL, "40-49"};
-    cabeceraEdad[4] = {NULL, "50-59"};
-    cabeceraEdad[5] = {NULL, "60-69"};
-    cabeceraEdad[6] = {NULL, "70-79"};
-    cabeceraEdad[7] = {NULL, "80"};
-    cabeceraActividad[0] = {NULL, "artes"};
-    cabeceraActividad[1] = {NULL, "tecnico"};
-    cabeceraActividad[2] = {NULL, "ingenieria"};
-    cabeceraActividad[3] = {NULL, "sociales"};
-    cabeceraActividad[4] = {NULL, "salud"};
-    cabeceraActividad[5] = {NULL, "otro"};
-    cabeceraPaisN[0] = {NULL, "colombia"};
-    cabeceraPaisN[1] = {NULL, "francia"};
-    cabeceraPaisN[2] = {NULL, "venezuela"};
-    cabeceraPaisN[3] = {NULL, "brasil"};
-    cabeceraCiudadR[0] = {NULL, "bogota"};
-    cabeceraCiudadR[1] = {NULL, "cali"};
-    cabeceraCiudadR[2] = {NULL, "medellin"};
-    cabeceraCiudadR[3] = {NULL, "barranquilla"};
-    cabeceraEps[0] = {NULL, "compensar"};
-    cabeceraEps[1] = {NULL, "sanitas"};
-    cabeceraEps[2] = {NULL, "nueva"};
-    cabeceraEps[3] = {NULL, "cafeSalud"};
-    cabeceraEps[4] = {NULL, "famisanar"};
+    cabeceraSexo[0] = {-1, "m"};
+    cabeceraSexo[1] = {-1, "f"};
+    cabeceraEdad[0] = {-1, "20"};
+    cabeceraEdad[1] = { -1, "20-29"};
+    cabeceraEdad[2] = {-1, "30-39"};
+    cabeceraEdad[3] = {-1, "40-49"};
+    cabeceraEdad[4] = {-1, "50-59"};
+    cabeceraEdad[5] = {-1, "60-69"};
+    cabeceraEdad[6] = {-1, "70-79"};
+    cabeceraEdad[7] = {-1, "80"};
+    cabeceraActividad[0] = {-1, "artes"};
+    cabeceraActividad[1] = {-1, "tecnico"};
+    cabeceraActividad[2] = {-1, "ingenieria"};
+    cabeceraActividad[3] = {-1, "sociales"};
+    cabeceraActividad[4] = {-1, "salud"};
+    cabeceraActividad[5] = {-1, "otro"};
+    cabeceraPaisN[0] = {-1, "colombia"};
+    cabeceraPaisN[1] = {-1, "francia"};
+    cabeceraPaisN[2] = {-1, "venezuela"};
+    cabeceraPaisN[3] = {-1, "brasil"};
+    cabeceraCiudadR[0] = {-1, "bogota"};
+    cabeceraCiudadR[1] = {-1, "cali"};
+    cabeceraCiudadR[2] = {-1, "medellin"};
+    cabeceraCiudadR[3] = {-1, "barranquilla"};
+    cabeceraEps[0] = {-1, "compensar"};
+    cabeceraEps[1] = {-1, "sanitas"};
+    cabeceraEps[2] = {-1, "nueva"};
+    cabeceraEps[3] = {-1, "cafeSalud"};
+    cabeceraEps[4] = {-1, "famisanar"};
   } 
+
   void insertarPersonita(Persona delSenior);
-  void ordenarSexo(Personita delSenior);
-  void ordenarEdad(Personita delSenior);
-  void ordenarActividad(Personita delSenior);
-  void ordenarPaisN(Personita delSenior);
-  void ordenarCiudadR(Personita delSenior);
-  void ordenarEps(Personita delSenior);
-  bool eliminar(Persona);
+  void ordenarSexo();
+  void ordenarEdad();
+  void ordenarActividad();
+  void ordenarPaisN();
+  void ordenarCiudadR();
+  void ordenarEps();
   Lista<Persona> listaSexo(char);
   Lista<Persona> listaEdad(int);
   Lista<Persona> listaActividad(int);
   Lista<Persona> listaPaisN(int);
   Lista<Persona> listaCiudadR(int);
   Lista<Persona> listaEps(int);
-  bool eliminarPersonitaLista (Persona);
-  Personita existeActual(Persona);
-  bool vacio();
-  bool lleno();
+  void imprimirArray();
 };
 
+void Multilista :: imprimirArray(){
+  for(int i = 0; i<posLibre; i++){
+    cout<<listaPersonitas[i].p.getNombre()<<"  "<<listaPersonitas[i].sigEdad<<endl;
+    //cout<<listaPersonitas[i].p.getNombre()<<endl;
+  }
+}
+
 void Multilista :: insertarPersonita(Persona persona){
-  Personita delSenior;
-  delSenior.p = &persona; //
-  ordenarSexo(delSenior);
-  ordenarEdad(delSenior);
-  ordenarActividad(delSenior);
-  ordenarPaisN(delSenior);
-  ordenarCiudadR(delSenior);
-  ordenarEps(delSenior);
-
-  listaPersonitas.insertarInicio(delSenior);
+  Personita *delSenior = new Personita();
+  delSenior->p= persona; //nice
+  listaPersonitas[posLibre] = *delSenior;
+  ordenarSexo();
+  ordenarEdad();
+  ordenarActividad();
+  ordenarPaisN();
+  ordenarCiudadR();
+  ordenarEps();
+  posLibre++;
 }
 
-void Multilista :: ordenarSexo(Personita delSenior){
-  Personita *aux = new Personita(); //funciona
-  if(delSenior.p->getSexo() == 'm'){
-    if(cabeceraSexo[0].head == NULL)
-      cabeceraSexo[0].head = &delSenior;
+void Multilista :: ordenarSexo(){
+  if(listaPersonitas[posLibre].p.getSexo() == 'm'){
+    if(cabeceraSexo[0].head == -1){
+      cabeceraSexo[0].head = posLibre;
+      listaPersonitas[posLibre].sigSexo = -1;
+    }
     else{
-      aux = cabeceraSexo[0].head;  
-      cabeceraSexo[0].head = &delSenior;
-      delSenior.sigSexo = aux; 
+      int aux = cabeceraSexo[0].head;  
+      cabeceraSexo[0].head = posLibre;
+      listaPersonitas[posLibre].sigSexo = aux;
     }
   }
-
-
-  if(delSenior.p->getSexo() == 'f'){
-    if(cabeceraSexo[1].head == NULL)
-      cabeceraSexo[1].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getSexo() == 'f'){
+    if(cabeceraSexo[1].head == -1){
+      cabeceraSexo[1].head = posLibre;
+      listaPersonitas[posLibre].sigSexo = -1;
+    }
     else{
-      aux = cabeceraSexo[1].head; 
-      cabeceraSexo[1].head = &delSenior;
-      delSenior.sigSexo = aux; 
+      int aux = cabeceraSexo[1].head;  
+      cabeceraSexo[1].head = posLibre;
+      listaPersonitas[posLibre].sigSexo = aux;
     }
   }
 }
 
-void Multilista :: ordenarEdad(Personita delSenior){
-  int edad = delSenior.p->getFechaN().getYear() - cYear;
-  Personita *aux = new Personita(); //funciona 
+void Multilista :: ordenarEdad(){
+  int edad = cYear - listaPersonitas[posLibre].p.getFechaN().getYear() ;
   if(edad < 20){
-    if(cabeceraEdad[0].head == NULL)
-      cabeceraEdad[0].head = &delSenior;
+      if(cabeceraEdad[0].head == -1){
+        cabeceraEdad[0].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[0].head;  
+        cabeceraEdad[0].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 20 && edad <= 29){
+      if(cabeceraEdad[1].head == -1){
+        cabeceraEdad[1].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[1].head;  
+        cabeceraEdad[1].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 30 && edad <= 39){
+      if(cabeceraEdad[2].head == -1){
+        cabeceraEdad[2].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[2].head;  
+        cabeceraEdad[2].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 40 && edad <= 49){
+      if(cabeceraEdad[3].head == -1){
+        cabeceraEdad[3].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[3].head;  
+        cabeceraEdad[3].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 50 && edad <= 59){
+      if(cabeceraEdad[4].head == -1){
+        cabeceraEdad[4].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[4].head;  
+        cabeceraEdad[4].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 60 && edad <= 69){
+      if(cabeceraEdad[5].head == -1){
+        cabeceraEdad[5].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[5].head;  
+        cabeceraEdad[5].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 70 && edad <= 79){
+      if(cabeceraEdad[6].head == -1){
+        cabeceraEdad[6].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[6].head;  
+        cabeceraEdad[6].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+
+    if(edad >= 80){
+      if(cabeceraEdad[7].head == -1){
+        cabeceraEdad[7].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = -1;
+      }
+      else{
+        int aux = cabeceraEdad[7].head;  
+        cabeceraEdad[7].head = posLibre;
+        listaPersonitas[posLibre].sigEdad = aux;
+      }
+    }
+}
+
+void Multilista :: ordenarActividad(){
+  if(listaPersonitas[posLibre].p.getActividad() == "artes"){
+      if(cabeceraActividad[0].head == -1){
+        cabeceraActividad[0].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = -1;
+      }
+      else{
+        int aux = cabeceraActividad[0].head;  
+        cabeceraActividad[0].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = aux;
+      }
+  }
+  if(listaPersonitas[posLibre].p.getActividad() == "tecnico"){
+      if(cabeceraActividad[1].head == -1){
+        cabeceraActividad[1].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = -1;
+      }
+      else{
+        int aux = cabeceraActividad[1].head;  
+        cabeceraActividad[1].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = aux;
+      }
+  }
+
+  if(listaPersonitas[posLibre].p.getActividad() == "ingenieria"){
+      if(cabeceraActividad[2].head == -1){
+        cabeceraActividad[2].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = -1;
+      }
+      else{
+        int aux = cabeceraActividad[2].head;  
+        cabeceraActividad[2].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = aux;
+      }
+  }
+  if(listaPersonitas[posLibre].p.getActividad() == "sociales"){
+      if(cabeceraActividad[3].head == -1){
+        cabeceraActividad[3].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = -1;
+      }
+      else{
+        int aux = cabeceraActividad[3].head;  
+        cabeceraActividad[3].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = aux;
+      }
+  }
+
+  if(listaPersonitas[posLibre].p.getActividad() == "salud"){
+      if(cabeceraActividad[4].head == -1){
+        cabeceraActividad[4].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = -1;
+      }
+      else{
+        int aux = cabeceraActividad[4].head;  
+        cabeceraActividad[4].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = aux;
+      }
+  }
+
+  if(listaPersonitas[posLibre].p.getActividad() == "otro"){
+      if(cabeceraActividad[5].head == -1){
+        cabeceraActividad[5].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = -1;
+      }
+      else{
+        int aux = cabeceraActividad[5].head;  
+        cabeceraActividad[5].head = posLibre;
+        listaPersonitas[posLibre].sigActividad = aux;
+      }
+  }
+}
+
+void Multilista :: ordenarPaisN(){
+  if(listaPersonitas[posLibre].p.getPaisN() == "colombia"){
+    if(cabeceraPaisN[0].head == -1){
+      cabeceraPaisN[0].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = -1;
+    }
     else{
-      aux = cabeceraEdad[0].head; 
-      cabeceraEdad[0].head = &delSenior;
-      delSenior.sigEdad = aux; 
+      int aux = cabeceraPaisN[0].head;  
+      cabeceraPaisN[0].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = aux;
     }
   }
 
-  if(edad >= 20 && edad <= 29){
-    if(cabeceraEdad[1].head == NULL)
-      cabeceraEdad[1].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getPaisN() == "francia"){
+    if(cabeceraPaisN[1].head == -1){
+      cabeceraPaisN[1].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = -1;
+    }
     else{
-      aux = cabeceraEdad[1].head; 
-      cabeceraEdad[1].head = &delSenior;
-      delSenior.sigEdad = aux; 
+      int aux = cabeceraPaisN[1].head;  
+      cabeceraPaisN[1].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = aux;
     }
   }
 
-  if(edad >= 30 && edad <= 39){
-    if(cabeceraEdad[2].head == NULL)
-      cabeceraEdad[2].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getPaisN() == "venezuela"){
+    if(cabeceraPaisN[2].head == -1){
+      cabeceraPaisN[2].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = -1;
+    }
     else{
-      aux = cabeceraEdad[2].head; 
-      cabeceraEdad[2].head = &delSenior;
-      delSenior.sigEdad = aux; 
+      int aux = cabeceraPaisN[2].head;  
+      cabeceraPaisN[2].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = aux;
     }
   }
 
-  if(edad >= 40 && edad <= 49){
-    if(cabeceraEdad[3].head == NULL)
-      cabeceraEdad[3].head = &delSenior;
-    else{
-      aux = cabeceraEdad[3].head; 
-      cabeceraEdad[3].head = &delSenior;
-      delSenior.sigEdad = aux; 
+  if(listaPersonitas[posLibre].p.getPaisN() == "brasil"){
+    if(cabeceraPaisN[3].head == -1){
+      cabeceraPaisN[3].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = -1;
     }
-  }
-
-  if(edad >= 50 && edad <= 59){
-    if(cabeceraEdad[4].head == NULL)
-      cabeceraEdad[4].head = &delSenior;
     else{
-      aux = cabeceraEdad[4].head; 
-      cabeceraEdad[4].head = &delSenior;
-      delSenior.sigEdad = aux; 
-    }
-  }
-
-  if(edad >= 60 && edad <= 69){
-    if(cabeceraEdad[5].head == NULL)
-      cabeceraEdad[5].head = &delSenior;
-    else{
-      aux = cabeceraEdad[5].head; 
-      cabeceraEdad[5].head = &delSenior;
-      delSenior.sigEdad = aux; 
-    }
-  }
-
-  if(edad >= 70 && edad <= 79){
-    if(cabeceraEdad[6].head == NULL)
-      cabeceraEdad[6].head = &delSenior;
-    else{
-      aux = cabeceraEdad[6].head; 
-      cabeceraEdad[6].head = &delSenior;
-      delSenior.sigEdad = aux; 
-    }
-  }
-
-  if(edad >= 80){
-    if(cabeceraEdad[7].head == NULL)
-      cabeceraEdad[7].head = &delSenior;
-    else{
-      aux = cabeceraEdad[7].head; 
-      cabeceraEdad[7].head = &delSenior;
-      delSenior.sigEdad = aux; 
+      int aux = cabeceraPaisN[3].head;  
+      cabeceraPaisN[3].head = posLibre;
+      listaPersonitas[posLibre].sigPaisN = aux;
     }
   }
 }
 
-void Multilista :: ordenarActividad(Personita delSenior){
-  Personita *aux = new Personita(); //funciona
-  if(delSenior.p->getActividad() == "artes"){
-    if(cabeceraActividad[0].head == NULL)
-      cabeceraActividad[0].head = &delSenior;
+void Multilista :: ordenarCiudadR(){
+ if(listaPersonitas[posLibre].p.getCiudadR() == "bogota"){
+    if(cabeceraCiudadR[0].head == -1){
+      cabeceraCiudadR[0].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = -1;
+    }
     else{
-      aux = cabeceraActividad[0].head; 
-      cabeceraActividad[0].head = &delSenior;
-      delSenior.sigActividad = aux; 
+      int aux = cabeceraCiudadR[0].head;  
+      cabeceraCiudadR[0].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = aux;
     }
   }
 
-  if(delSenior.p->getActividad() == "tecnico"){
-    if(cabeceraActividad[1].head == NULL)
-      cabeceraActividad[1].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getCiudadR() == "cali"){
+    if(cabeceraCiudadR[1].head == -1){
+      cabeceraCiudadR[1].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = -1;
+    }
     else{
-      aux = cabeceraActividad[1].head; 
-      cabeceraActividad[1].head = &delSenior;
-      delSenior.sigActividad = aux; 
+      int aux = cabeceraCiudadR[1].head;  
+      cabeceraCiudadR[1].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = aux;
     }
   }
-
-  if(delSenior.p->getActividad() == "ingenieria"){
-    if(cabeceraActividad[2].head == NULL)
-      cabeceraActividad[2].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getCiudadR() == "medellin"){
+    if(cabeceraCiudadR[2].head == -1){
+      cabeceraCiudadR[2].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = -1;
+    }
     else{
-      aux = cabeceraActividad[2].head; 
-      cabeceraActividad[2].head = &delSenior;
-      delSenior.sigActividad = aux; 
+      int aux = cabeceraCiudadR[2].head;  
+      cabeceraCiudadR[2].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = aux;
     }
   }
-
-  if(delSenior.p->getActividad() == "sociales"){
-    if(cabeceraActividad[3].head == NULL)
-      cabeceraActividad[3].head = &delSenior;
-    else{
-      aux = cabeceraActividad[3].head; 
-      cabeceraActividad[3].head = &delSenior;
-      delSenior.sigActividad = aux; 
+  if(listaPersonitas[posLibre].p.getCiudadR() == "barranquilla"){
+    if(cabeceraCiudadR[3].head == -1){
+      cabeceraCiudadR[3].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = -1;
     }
-  }
-
-  if(delSenior.p->getActividad() == "salud"){
-    if(cabeceraActividad[4].head == NULL)
-      cabeceraActividad[4].head = &delSenior;
     else{
-      aux = cabeceraActividad[4].head; 
-      cabeceraActividad[4].head = &delSenior;
-      delSenior.sigActividad = aux; 
-    }
-  }
-
-  if(delSenior.p->getActividad() == "otro"){
-    if(cabeceraActividad[5].head == NULL)
-      cabeceraActividad[5].head = &delSenior;
-    else{
-      aux = cabeceraActividad[5].head; 
-      cabeceraActividad[5].head = &delSenior;
-      delSenior.sigActividad = aux; 
+      int aux = cabeceraCiudadR[3].head;  
+      cabeceraCiudadR[3].head = posLibre;
+      listaPersonitas[posLibre].sigCiudadR = aux;
     }
   }
 }
 
-void Multilista :: ordenarPaisN(Personita delSenior){
-  Personita *aux = new Personita(); //funciona
-  if(delSenior.p->getPaisN() == "colombia"){
-    if(cabeceraPaisN[0].head == NULL)
-      cabeceraPaisN[0].head = &delSenior;
+void Multilista ::  ordenarEps(){
+if(listaPersonitas[posLibre].p.getNombreEps() == "compensar"){
+    if(cabeceraEps[0].head == -1){
+      cabeceraEps[0].head = posLibre;
+      listaPersonitas[posLibre].sigEps = -1;
+    }
     else{
-      aux = cabeceraPaisN[0].head; 
-      cabeceraPaisN[0].head = &delSenior;
-      delSenior.sigPaisN = aux; 
+      int aux = cabeceraEps[0].head;  
+      cabeceraEps[0].head = posLibre;
+      listaPersonitas[posLibre].sigEps = aux;
     }
   }
 
-  if(delSenior.p->getPaisN() == "francia"){
-    if(cabeceraPaisN[1].head == NULL)
-      cabeceraPaisN[1].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getNombreEps() == "sanitas"){
+    if(cabeceraEps[1].head == -1){
+      cabeceraEps[1].head = posLibre;
+      listaPersonitas[posLibre].sigEps = -1;
+    }
     else{
-      aux = cabeceraPaisN[1].head; 
-      cabeceraPaisN[1].head = &delSenior;
-      delSenior.sigPaisN = aux; 
+      int aux = cabeceraEps[1].head;  
+      cabeceraEps[1].head = posLibre;
+      listaPersonitas[posLibre].sigEps = aux;
     }
   }
-
-  if(delSenior.p->getPaisN() == "venezuela"){
-    if(cabeceraPaisN[2].head == NULL)
-      cabeceraPaisN[2].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getNombreEps() == "nueva"){
+    if(cabeceraEps[2].head == -1){
+      cabeceraEps[2].head = posLibre;
+      listaPersonitas[posLibre].sigEps = -1;
+    }
     else{
-      aux = cabeceraPaisN[2].head; 
-      cabeceraPaisN[2].head = &delSenior;
-      delSenior.sigPaisN = aux; 
+      int aux = cabeceraEps[2].head;  
+      cabeceraEps[2].head = posLibre;
+      listaPersonitas[posLibre].sigEps = aux;
     }
   }
-
-  if(delSenior.p->getPaisN() == "brasil"){
-    if(cabeceraPaisN[3].head == NULL)
-      cabeceraPaisN[3].head = &delSenior;
+  if(listaPersonitas[posLibre].p.getNombreEps() == "cafeSalud"){
+    if(cabeceraEps[3].head == -1){
+      cabeceraEps[3].head = posLibre;
+      listaPersonitas[posLibre].sigEps = -1;
+    }
     else{
-      aux = cabeceraPaisN[3].head; 
-      cabeceraPaisN[3].head = &delSenior;
-      delSenior.sigPaisN = aux; 
+      int aux = cabeceraEps[3].head;  
+      cabeceraEps[3].head = posLibre;
+      listaPersonitas[posLibre].sigEps = aux;
     }
   }
-}
-
-void Multilista :: ordenarCiudadR(Personita delSenior){
-  Personita *aux = new Personita(); //funciona
-  if(delSenior.p->getCiudadR() == "bogota"){
-    if(cabeceraCiudadR[0].head == NULL)
-      cabeceraCiudadR[0].head = &delSenior;
-    else{
-      aux = cabeceraCiudadR[0].head; 
-      cabeceraCiudadR[0].head = &delSenior;
-      delSenior.sigCiudadR = aux; 
+if(listaPersonitas[posLibre].p.getNombreEps() == "famisanar"){
+    if(cabeceraEps[4].head == -1){
+      cabeceraEps[4].head = posLibre;
+      listaPersonitas[posLibre].sigEps = -1;
     }
-  }
-
-  if(delSenior.p->getCiudadR() == "cali"){
-    if(cabeceraCiudadR[1].head == NULL)
-      cabeceraCiudadR[1].head = &delSenior;
     else{
-      aux = cabeceraCiudadR[1].head; 
-      cabeceraCiudadR[1].head = &delSenior;
-      delSenior.sigCiudadR = aux; 
-    }
-  }
-
-  if(delSenior.p->getCiudadR() == "medellin"){
-    if(cabeceraCiudadR[2].head == NULL)
-      cabeceraCiudadR[2].head = &delSenior;
-    else{
-      aux = cabeceraCiudadR[2].head; 
-      cabeceraCiudadR[2].head = &delSenior;
-      delSenior.sigCiudadR = aux; 
-    }
-  }
-
-  if(delSenior.p->getCiudadR() == "barranquilla"){
-    if(cabeceraCiudadR[3].head == NULL)
-      cabeceraCiudadR[3].head = &delSenior;
-    else{
-      aux = cabeceraCiudadR[3].head; 
-      cabeceraCiudadR[3].head = &delSenior;
-      delSenior.sigCiudadR = aux; 
-    }
-  }
-}
-
-void Multilista ::  ordenarEps(Personita delSenior){
-  Personita *aux = new Personita(); //funciona
-  if(delSenior.p->getNombreEps() == "compensar"){
-    if(cabeceraEps[0].head == NULL)
-      cabeceraEps[0].head = &delSenior;
-    else{
-      aux = cabeceraEps[0].head; 
-      cabeceraEps[0].head = &delSenior;
-      delSenior.sigEps = aux; 
-    }
-  }
-
-  if(delSenior.p->getNombreEps() == "sanitas"){
-    if(cabeceraEps[1].head == NULL)
-      cabeceraEps[1].head = &delSenior;
-    else{
-      aux = cabeceraEps[1].head; 
-      cabeceraEps[1].head = &delSenior;
-      delSenior.sigEps = aux; 
-    }
-  }
-
-  if(delSenior.p->getNombreEps() == "nueva"){
-    if(cabeceraEps[2].head == NULL)
-      cabeceraEps[2].head = &delSenior;
-    else{
-      aux = cabeceraEps[2].head; 
-      cabeceraEps[2].head = &delSenior;
-      delSenior.sigEps = aux; 
-    }
-  }
-
-  if(delSenior.p->getNombreEps() == "cafeSalud"){
-    if(cabeceraEps[3].head == NULL)
-      cabeceraEps[3].head = &delSenior;
-    else{
-      aux = cabeceraEps[3].head; 
-      cabeceraEps[3].head = &delSenior;
-      delSenior.sigEps = aux; 
-    }
-  }
-
-  if(delSenior.p->getNombreEps() == "famisanar"){
-    if(cabeceraEps[4].head == NULL)
-      cabeceraEps[4].head = &delSenior;
-    else{
-      aux = cabeceraEps[4].head; 
-      cabeceraEps[4].head = &delSenior;
-      delSenior.sigEps = aux; 
+      int aux = cabeceraEps[4].head;  
+      cabeceraEps[4].head = posLibre;
+      listaPersonitas[posLibre].sigEps = aux;
     }
   }
 }
 
 Lista<Persona> Multilista::listaSexo(char sexo){
-  Lista<Persona> listaPersona;
+  Lista<Persona> listaPersona = Lista<Persona>();
   if(sexo == 'm'){
-    Personita *aux = cabeceraSexo[0].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigSexo;
+    int aux = cabeceraSexo[0].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigSexo;
     }
-    
   }
 
   if(sexo == 'f'){
-    Personita *aux = cabeceraSexo[1].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigSexo;
+    int aux = cabeceraSexo[1].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigSexo;
     }
   }
   return listaPersona;
 }
 
 Lista<Persona> Multilista::listaEdad(int num){
-  Lista<Persona> listaPersona;
+  Lista<Persona> listaPersona = Lista<Persona>();
   if(num == 0){
-    Personita *aux = cabeceraEdad[0].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[0].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
 
   if(num == 1){
-    Personita *aux = cabeceraEdad[1].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[1].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
 
   if(num == 2){
-    Personita *aux = cabeceraEdad[2].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[2].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
-
   if(num == 3){
-    Personita *aux = cabeceraEdad[3].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[3].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
-
   if(num == 4){
-    Personita *aux = cabeceraEdad[4].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[4].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
-
   if(num == 5){
-    Personita *aux = cabeceraEdad[5].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[5].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
-
   if(num == 6){
-    Personita *aux = cabeceraEdad[6].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[6].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
-
   if(num == 7){
-    Personita *aux = cabeceraEdad[7].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEdad;
+    int aux = cabeceraEdad[7].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigEdad;
     }
   }
   return listaPersona;
 }
 
 Lista<Persona> Multilista::listaActividad(int num){
-  Lista<Persona> listaPersona;
+  Lista<Persona> listaPersona = Lista<Persona>();
   if(num == 0){
-    Personita *aux = cabeceraActividad[0].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigActividad;
+    int aux = cabeceraActividad[0].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigActividad;
     }
   }
-
-  if(num == 1){
-    Personita *aux = cabeceraActividad[1].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigActividad;
+   if(num == 1){
+    int aux = cabeceraActividad[1].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigActividad;
     }
   }
-
   if(num == 2){
-    Personita *aux = cabeceraActividad[2].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigActividad;
+    int aux = cabeceraActividad[2].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigActividad;
     }
   }
-
   if(num == 3){
-    Personita *aux = cabeceraActividad[3].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigActividad;
+    int aux = cabeceraActividad[3].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigActividad;
     }
   }
-
   if(num == 4){
-    Personita *aux = cabeceraActividad[4].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigActividad;
+    int aux = cabeceraActividad[4].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigActividad;
     }
   }
-
   if(num == 5){
-    Personita *aux = cabeceraActividad[5].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigActividad;
+    int aux = cabeceraActividad[5].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigActividad;
     }
   }
   return listaPersona;
 }
   
 Lista<Persona> Multilista::listaPaisN(int num){
-  Lista<Persona> listaPersona;
+  Lista<Persona> listaPersona = Lista<Persona>();
   if(num == 0){
-    Personita *aux = cabeceraPaisN[0].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigPaisN;
+    int aux = cabeceraPaisN[0].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigPaisN;
     }
   }
-
   if(num == 1){
-    Personita *aux = cabeceraPaisN[1].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigPaisN;
+    int aux = cabeceraPaisN[1].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigPaisN;
     }
   }
-
   if(num == 2){
-    Personita *aux = cabeceraPaisN[2].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigPaisN;
+    int aux = cabeceraPaisN[2].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigPaisN;
     }
   }
-
   if(num == 3){
-    Personita *aux = cabeceraPaisN[3].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigPaisN;
+    int aux = cabeceraPaisN[3].head;
+    while(aux != -1){
+      listaPersona.insertarInicio(listaPersonitas[aux].p);
+      aux = listaPersonitas[aux].sigPaisN;
     }
   }
   return listaPersona;
 }
 
 Lista<Persona> Multilista::listaCiudadR(int num){
-  Lista<Persona> listaPersona;
+  Lista<Persona> listaPersona = Lista<Persona>();
   if(num == 0){
-    Personita *aux = cabeceraCiudadR[0].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigCiudadR;
+      int aux = cabeceraCiudadR[0].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigCiudadR;
+      }
     }
-  }
-
-  if(num == 1){
-    Personita *aux = cabeceraCiudadR[1].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigCiudadR;
+    if(num == 1){
+      int aux = cabeceraCiudadR[1].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigCiudadR;
+      }
     }
-  }
-
-  if(num == 2){
-    Personita *aux = cabeceraCiudadR[2].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigCiudadR;
+    if(num == 2){
+      int aux = cabeceraCiudadR[2].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigCiudadR;
+      }
     }
-  }
-
-  if(num == 3){
-    Personita *aux = cabeceraCiudadR[3].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigCiudadR;
+    if(num == 3){
+      int aux = cabeceraCiudadR[3].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigCiudadR;
+      }
     }
-  }
   return listaPersona;
 }
 
 
 Lista<Persona> Multilista::listaEps(int num){
-  Lista<Persona> listaPersona;
+  Lista<Persona> listaPersona = Lista<Persona>();
   if(num == 0){
-    Personita *aux = cabeceraEps[0].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEps;
+      int aux = cabeceraEps[0].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigEps;
+      }
     }
-  }
-
-  if(num == 1){
-    Personita *aux = cabeceraEps[1].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEps;
+    if(num == 1){
+      int aux = cabeceraEps[1].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigEps;
+      }
     }
-  }
-
-  if(num == 2){
-    Personita *aux = cabeceraEps[2].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEps;
+    if(num == 2){
+      int aux = cabeceraEps[2].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigEps;
+      }
     }
-  }
-
-  if(num == 3){
-    Personita *aux = cabeceraEps[3].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEps;
+    if(num == 3){
+      int aux = cabeceraEps[3].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigEps;
+      }
     }
-  }
-
-  if(num == 4){
-    Personita *aux = cabeceraEps[4].head;
-    while(aux != NULL){
-      listaPersona.insertarInicio(*aux->p);
-      aux = aux->sigEps;
+    if(num == 4){
+      int aux = cabeceraEps[4].head;
+      while(aux != -1){
+        listaPersona.insertarInicio(listaPersonitas[aux].p);
+        aux = listaPersonitas[aux].sigEps;
+      }
     }
-  }
   return listaPersona;
 }
 #endif

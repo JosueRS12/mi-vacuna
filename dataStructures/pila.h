@@ -14,15 +14,23 @@ struct nodo{
 template<class T>
 class Pila{
   nodo<T> *cab;
+  int tam;
   public: 
   Pila(){
     cab = new nodo<T>;
     cab->sig=NULL; //primer elemento en cabeza
+    tam = 0;
   }
+  int getTam();
   void push(T v);
   T pop();
   bool pilaVacia();
 };
+
+template<class T>
+int Pila<T>:: getTam(){
+  return tam;
+}
 
 template<class T>
 void Pila<T>::push(T v){
@@ -30,6 +38,7 @@ void Pila<T>::push(T v){
   t->dato=v; 
   t->sig=cab->sig;
   cab->sig= t;
+  tam++;
 }
 
 template<class T>
@@ -39,6 +48,7 @@ T Pila<T>::pop(){
      cab->sig= t->sig; 
      x=t->dato;
      delete t;
+     tam--;
      return x;
 }
      

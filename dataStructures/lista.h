@@ -35,7 +35,18 @@ class Lista{
   void insertarInicio(T infoNueva); //
   void insertarPos(T infoNueva, int pos);
   bool modificar(T, int pos);
+  void mostrarLista();
 };
+
+template <class T>
+void Lista<T> ::  mostrarLista(){
+  Nodo<T> *nodo = head;
+  while(nodo != NULL){
+    cout<<nodo->info.getNombre()<<endl;
+    //cout<<nodo->info.<<endl;
+    nodo = nodo -> sig;
+  }
+}
 
 template <class T>
 void Lista<T> :: setHead(Nodo<T> *p){

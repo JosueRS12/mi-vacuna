@@ -1,177 +1,688 @@
+#ifndef MULTILISTA_H
+#define MULTILISTA_H
+
+//insertarOrdenado
 #include <iostream>
 #include <cstdlib>
-#include <wchar.h>
-#include <locale.h>
-  //cout.fill('-');
-  //cout<<setw(15)<<" holaaa"<<endl;
-  //cout<<setw(15)<<" holaaa"<<endl;
-  //gotoxy(x,y);
+#include "../models/Persona.h"
+#include "lista.h"
+#include <ctime>
+
 using namespace std;
-int main (){
-  int op,op2,op3,op4,op5,op6,op7;
-  do{
-    cout<<"Mi Vacuna"<<endl;
-    cout<<"Bienvenido, ¿Bajo que rol ingresa?"<<endl;
-    cout<<"Digite la opción deseada"<<endl;
-    cout<<"1) Ministerio de salud"<<endl; //controlador ministerio
-    cout<<"2) Beneficiario"<<endl; //controlador ben => editar datos, consultar cita vacunación 
-    cout<<"3) Nuevo Usuario"<<endl; //controlador nuevo
-    cout<<"0) salir"<<endl;
-    cin>> op;
-    switch (op){
-      case 1:
-      {
 
-      }break;
-      case 2:
-      {
+struct Personita{
+  Persona *p;
+  Personita *sigSexo, *sigEdad, *sigActividad, *sigPaisN, *sigCiudadR, *sigEps;
+};
 
-      }break;
-      case 3:
-      {
-        cout<<"Digite el nombre"<<endl;
-        cout<<"Digite el apellido"<<endl;
-        cout<<"Digite el tipo de identificación"<<endl;
-        cout<<"Digite el numero de identificación"<<endl;
-        cout<<"Digite el sexo (M/f)"<<endl;
-        cout<<"Digite el celular"<<endl;
-        cout<<"Digite el numero fijo"<<endl;
-        cout<<"Digite el correo electrónico"<<endl;
-        cout<<"Digite la fecha de nacimiento"<<endl;
-        cout<<"Digite la ciudad de nacimiento"<<endl;
-        cout<<"Digite el país de nacimiento"<<endl;
-        cout<<"Digite la ciudad de residencia"<<endl;
-        cout<<"Digite la dirección"<<endl;
-        cout<<"Digite el barrio"<<endl;
-        cout<<"Selecciona la actividad laboral en la que se desempeña"<<endl;
-        cout<<"1) Artes"<<endl;
-        cout<<"2) Ingenieria"<<endl;
-        cout<<"3) Ciencias Sociales"<<endl;
-        cout<<"4) Areas de la Salud"<<endl;
-        cout<<"5) otros"<<endl;
-        cin>>op2;
-        switch (op2){
-          case 1:
-            {
-          
-            }break;
-          case 2:
-            {
+struct Cabecera{
+  Personita *head;
+  string tipo;
+};
 
-            }break;
-          case 3:
-            {
+class Multilista{
+  Nodo<Personita> *headPersonitas;
+  time_t now = time(0);
+  tm *ltm = localtime(&now);
+  int cYear = 1900+ltm->tm_year; 
+  Personita *personita;
+  Cabecera *cabeceraSexo, *cabeceraEdad, *cabeceraActividad, *cabeceraPaisN, *cabeceraCiudadR, *cabeceraEps;
+  Lista<Personita> listaPersonitas; 
+  int tam;
 
-            }break;
-          case 4:
-            {
-            }break;
-          case 5:
-            {
-            }break;
-          default:
-              ///otros
-            break;
-        }
-        cout<<"Seleccione el nombre de la eps"<<endl;
-        cout<<"1) Compensar"<<endl;
-        cout<<"2) Sanitas"<<endl;
-        cout<<"3) Nueva "<<endl;
-        cout<<"4) Cafe Salud"<<endl;
-        cout<<"5) Famisanar "<<endl;
-        cin>>op3;
-        switch (op3){
-          case 1:
-            {
-          
-            }break;
-          case 2:
-            {
+  public:
+  Multilista(){
+    tam = 0;
+    cabeceraSexo = new Cabecera[2]; 
+    cabeceraEdad = new Cabecera[8]; 
+    cabeceraActividad = new Cabecera[6]; 
+    cabeceraPaisN = new Cabecera[4]; 
+    cabeceraCiudadR = new Cabecera[4]; 
+    cabeceraEps = new Cabecera[5]; 
+    cabeceraSexo[0] = {NULL, "m"};
+    cabeceraSexo[1] = {NULL, "f"};
+    cabeceraEdad[0] = {NULL, "20"};
+    cabeceraEdad[1] = {NULL, "20-29"};
+    cabeceraEdad[2] = {NULL, "30-39"};
+    cabeceraEdad[3] = {NULL, "40-49"};
+    cabeceraEdad[4] = {NULL, "50-59"};
+    cabeceraEdad[5] = {NULL, "60-69"};
+    cabeceraEdad[6] = {NULL, "70-79"};
+    cabeceraEdad[7] = {NULL, "80"};
+    cabeceraActividad[0] = {NULL, "artes"};
+    cabeceraActividad[1] = {NULL, "tecnico"};
+    cabeceraActividad[2] = {NULL, "ingenieria"};
+    cabeceraActividad[3] = {NULL, "sociales"};
+    cabeceraActividad[4] = {NULL, "salud"};
+    cabeceraActividad[5] = {NULL, "otro"};
+    cabeceraPaisN[0] = {NULL, "colombia"};
+    cabeceraPaisN[1] = {NULL, "francia"};
+    cabeceraPaisN[2] = {NULL, "venezuela"};
+    cabeceraPaisN[3] = {NULL, "brasil"};
+    cabeceraCiudadR[0] = {NULL, "bogota"};
+    cabeceraCiudadR[1] = {NULL, "cali"};
+    cabeceraCiudadR[2] = {NULL, "medellin"};
+    cabeceraCiudadR[3] = {NULL, "barranquilla"};
+    cabeceraEps[0] = {NULL, "compensar"};
+    cabeceraEps[1] = {NULL, "sanitas"};
+    cabeceraEps[2] = {NULL, "nueva"};
+    cabeceraEps[3] = {NULL, "cafeSalud"};
+    cabeceraEps[4] = {NULL, "famisanar"};
+  } 
+  void setCabeceras();
+  void insertarPersonita(Persona delSenior);
+  void ordenarSexo(Personita delSenior);
+  void ordenarEdad(Personita delSenior);
+  void ordenarActividad(Personita delSenior);
+  void ordenarPaisN(Personita delSenior);
+  void ordenarCiudadR(Personita delSenior);
+  void ordenarEps(Personita delSenior);
+  bool eliminar(Persona);
+  Lista<Persona> listaSexo(char);
+  Lista<Persona> listaEdad(int);
+  Lista<Persona> listaActividad(int);
+  Lista<Persona> listaPaisN(int);
+  Lista<Persona> listaCiudadR(int);
+  Lista<Persona> listaEps(int);
+  bool eliminarPersonitaLista (Persona);
+  Personita existeActual(Persona);
+  bool vacio();
+  bool lleno();
+};
 
-            }break;
-          case 3:
-            {
+void Multilista :: insertarPersonita(Persona persona){
+  Personita *delSenior = new Personita;
+  delSenior->p = &persona; //
+  cout<<"del senior"<<&delSenior<<endl;
+  cout<<"direccion persona"<<&delSenior->p<<endl;
+  ordenarSexo(*delSenior);
+  ordenarEdad(*delSenior);
+  ordenarActividad(*delSenior);
+  ordenarPaisN(*delSenior);
+  ordenarCiudadR(*delSenior);
+  ordenarEps(*delSenior);
+  cout<<"ordenar eps"<<endl;
 
-            }break;
-          case 4:
-            {
-            }break;
-          case 5:
-            {
-            }break;
-          default:
-            break;
-        }
-        cout<<"Seleccione el tipo vacuna"<<endl;
-        cout<<"1) Pfizer "<<endl;
-        cout<<"2) Aztrazeneca"<<endl;
-        cout<<"3) Johnson"<<endl;
-        cout<<"4) Moderna"<<endl;
-        cout<<"5) Sputnik "<<endl;
-        cout<<"6) Sinovac "<<endl;
-        cin>>op3;
+  listaPersonitas.insertarInicio(*delSenior);
+  //cout<<"cabecera"<<cabeceraSexo[0].head->p->getNombre()<<endl;
+}
 
-
-    cout<<"hola gonorreas"<<endl;
-    // File pointer
-    fstream fin;
-    Pila<string> pila;
-    char sexo[1];
-  
-    // Open an existing file
-    fin.open("./files/persona.csv", ios::in);
-    cout<<"hola gonorreas 2.0"<<endl;
-  
-    // Read the Data from the file
-    // as String Vector
-    string line, word, temp;
-    //!fin.eof() 
-    while (!fin.eof()){ //cada vez que se ejecuta, lee una fila del csv
-        // read an entire row and
-        // store it in a string variable 'line'
-        getline(fin, line);
-  
-        // used for breaking words
-        stringstream s(line);
-  
-        // read every column data of a row and
-        // store it in a string variable, 'word'
-        cout<<"line: "<<line<<endl;
-        while (getline(s, word, ',')) {
-  
-            // add all the column data
-            // of a row to a vector
-            pila.push(word);
-            cout<<"word: "<<word<<endl;
-        }
-  
-        cout<<"cualquier cosa "<<endl;
-        persona.getFechaSegundaD().setYear( stoi(pila.pop()) );
-        persona.getFechaSegundaD().setMonth( stoi(pila.pop()) ); 
-        persona.getFechaSegundaD().setDay( stoi(pila.pop()) ); 
-        persona.getFechaPrimeraD().setYear( stoi(pila.pop()) ); 
-        persona.getFechaPrimeraD().setMonth( stoi(pila.pop()) ); 
-        persona.getFechaPrimeraD().setDay( stoi(pila.pop()) ); 
-        persona.getFechaN().setYear( stoi(pila.pop()) ); 
-        persona.getFechaN().setMonth( stoi(pila.pop()) ); 
-        persona.getFechaN().setDay( stoi(pila.pop()) ); //misdudas
-        persona.setTipoVacuna( pila.pop() ); 
-        persona.setNombreEps( pila.pop() ); 
-        persona.setActividad( pila.pop() ); 
-        persona.setBarrio( pila.pop() ); 
-        persona.setDireccion( pila.pop() ); 
-        persona.setCiudadR( pila.pop() ); 
-        persona.setPaisN( pila.pop() ); 
-        persona.setCiudadN( pila.pop() ); 
-        persona.setCorreo( pila.pop() ); 
-        persona.setFijo( pila.pop() ); 
-        persona.setCelular( pila.pop() ); 
-        strcpy(sexo, pila.pop().c_str());
-        persona.setSexo(sexo[0]); 
-        persona.setNumeroId( stoi(pila.pop()) ); 
-        persona.setTipoId( pila.pop() ); 
-        persona.setApellido( pila.pop() ); 
-        persona.setNombre( pila.pop() );
-        //arbolRN.ins_arbol(persona.getNumeroId(),persona);
+void Multilista :: ordenarSexo(Personita delSenior){
+  if(delSenior.p->getSexo() == 'm'){
+    if(cabeceraSexo[0].head == NULL){
+      cabeceraSexo[0].head = &delSenior;
+      //cout<<"cabecera"<<cabeceraSexo[0].head->p->getNombre()<<endl;
     }
-    cout<<"salido fichero"<<endl;
+    else{
+      Personita aux; //funciona
+      aux = *cabeceraSexo[0].head;  
+      cabeceraSexo[0].head = &delSenior;
+      delSenior.sigSexo = &aux; 
+      //cout<<"cabecera"<<cabeceraSexo[0].head->p->getNombre()<<endl;
+      //cout<<"sig cabecera"<<cabeceraSexo[0].head->sigSexo->p->getNombre()<<endl;
+    }
+  }
+
+
+  if(delSenior.p->getSexo() == 'f'){
+    if(cabeceraSexo[1].head == NULL)
+      cabeceraSexo[1].head = &delSenior;
+    else{
+      Personita *aux = NULL; //funciona
+      aux = cabeceraSexo[1].head; 
+      cabeceraSexo[1].head = &delSenior;
+      delSenior.sigSexo = aux; 
+    }
+  }
+}
+
+void Multilista :: ordenarEdad(Personita delSenior){
+  int edad = delSenior.p->getFechaN().getYear() - cYear;
+  Personita *aux = new Personita(); //funciona 
+  if(edad < 20){
+    if(cabeceraEdad[0].head == NULL)
+      cabeceraEdad[0].head = &delSenior;
+    else{
+      aux = cabeceraEdad[0].head; 
+      cabeceraEdad[0].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 20 && edad <= 29){
+    if(cabeceraEdad[1].head == NULL)
+      cabeceraEdad[1].head = &delSenior;
+    else{
+      aux = cabeceraEdad[1].head; 
+      cabeceraEdad[1].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 30 && edad <= 39){
+    if(cabeceraEdad[2].head == NULL)
+      cabeceraEdad[2].head = &delSenior;
+    else{
+      aux = cabeceraEdad[2].head; 
+      cabeceraEdad[2].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 40 && edad <= 49){
+    if(cabeceraEdad[3].head == NULL)
+      cabeceraEdad[3].head = &delSenior;
+    else{
+      aux = cabeceraEdad[3].head; 
+      cabeceraEdad[3].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 50 && edad <= 59){
+    if(cabeceraEdad[4].head == NULL)
+      cabeceraEdad[4].head = &delSenior;
+    else{
+      aux = cabeceraEdad[4].head; 
+      cabeceraEdad[4].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 60 && edad <= 69){
+    if(cabeceraEdad[5].head == NULL)
+      cabeceraEdad[5].head = &delSenior;
+    else{
+      aux = cabeceraEdad[5].head; 
+      cabeceraEdad[5].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 70 && edad <= 79){
+    if(cabeceraEdad[6].head == NULL)
+      cabeceraEdad[6].head = &delSenior;
+    else{
+      aux = cabeceraEdad[6].head; 
+      cabeceraEdad[6].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+
+  if(edad >= 80){
+    if(cabeceraEdad[7].head == NULL)
+      cabeceraEdad[7].head = &delSenior;
+    else{
+      aux = cabeceraEdad[7].head; 
+      cabeceraEdad[7].head = &delSenior;
+      delSenior.sigEdad = aux; 
+    }
+  }
+}
+
+void Multilista :: ordenarActividad(Personita delSenior){
+  Personita *aux = new Personita(); //funciona
+  if(delSenior.p->getActividad() == "artes"){
+    if(cabeceraActividad[0].head == NULL)
+      cabeceraActividad[0].head = &delSenior;
+    else{
+      aux = cabeceraActividad[0].head; 
+      cabeceraActividad[0].head = &delSenior;
+      delSenior.sigActividad = aux; 
+    }
+  }
+
+  if(delSenior.p->getActividad() == "tecnico"){
+    if(cabeceraActividad[1].head == NULL)
+      cabeceraActividad[1].head = &delSenior;
+    else{
+      aux = cabeceraActividad[1].head; 
+      cabeceraActividad[1].head = &delSenior;
+      delSenior.sigActividad = aux; 
+    }
+  }
+
+  if(delSenior.p->getActividad() == "ingenieria"){
+    if(cabeceraActividad[2].head == NULL)
+      cabeceraActividad[2].head = &delSenior;
+    else{
+      aux = cabeceraActividad[2].head; 
+      cabeceraActividad[2].head = &delSenior;
+      delSenior.sigActividad = aux; 
+    }
+  }
+
+  if(delSenior.p->getActividad() == "sociales"){
+    if(cabeceraActividad[3].head == NULL)
+      cabeceraActividad[3].head = &delSenior;
+    else{
+      aux = cabeceraActividad[3].head; 
+      cabeceraActividad[3].head = &delSenior;
+      delSenior.sigActividad = aux; 
+    }
+  }
+
+  if(delSenior.p->getActividad() == "salud"){
+    if(cabeceraActividad[4].head == NULL)
+      cabeceraActividad[4].head = &delSenior;
+    else{
+      aux = cabeceraActividad[4].head; 
+      cabeceraActividad[4].head = &delSenior;
+      delSenior.sigActividad = aux; 
+    }
+  }
+
+  if(delSenior.p->getActividad() == "otro"){
+    if(cabeceraActividad[5].head == NULL)
+      cabeceraActividad[5].head = &delSenior;
+    else{
+      aux = cabeceraActividad[5].head; 
+      cabeceraActividad[5].head = &delSenior;
+      delSenior.sigActividad = aux; 
+    }
+  }
+}
+
+void Multilista :: ordenarPaisN(Personita delSenior){
+  Personita *aux = new Personita(); //funciona
+  if(delSenior.p->getPaisN() == "colombia"){
+    if(cabeceraPaisN[0].head == NULL)
+      cabeceraPaisN[0].head = &delSenior;
+    else{
+      aux = cabeceraPaisN[0].head; 
+      cabeceraPaisN[0].head = &delSenior;
+      delSenior.sigPaisN = aux; 
+    }
+  }
+
+  if(delSenior.p->getPaisN() == "francia"){
+    if(cabeceraPaisN[1].head == NULL)
+      cabeceraPaisN[1].head = &delSenior;
+    else{
+      aux = cabeceraPaisN[1].head; 
+      cabeceraPaisN[1].head = &delSenior;
+      delSenior.sigPaisN = aux; 
+    }
+  }
+
+  if(delSenior.p->getPaisN() == "venezuela"){
+    if(cabeceraPaisN[2].head == NULL)
+      cabeceraPaisN[2].head = &delSenior;
+    else{
+      aux = cabeceraPaisN[2].head; 
+      cabeceraPaisN[2].head = &delSenior;
+      delSenior.sigPaisN = aux; 
+    }
+  }
+
+  if(delSenior.p->getPaisN() == "brasil"){
+    if(cabeceraPaisN[3].head == NULL)
+      cabeceraPaisN[3].head = &delSenior;
+    else{
+      aux = cabeceraPaisN[3].head; 
+      cabeceraPaisN[3].head = &delSenior;
+      delSenior.sigPaisN = aux; 
+    }
+  }
+}
+
+void Multilista :: ordenarCiudadR(Personita delSenior){
+  Personita *aux = new Personita(); //funciona
+  if(delSenior.p->getCiudadR() == "bogota"){
+    if(cabeceraCiudadR[0].head == NULL)
+      cabeceraCiudadR[0].head = &delSenior;
+    else{
+      aux = cabeceraCiudadR[0].head; 
+      cabeceraCiudadR[0].head = &delSenior;
+      delSenior.sigCiudadR = aux; 
+    }
+  }
+
+  if(delSenior.p->getCiudadR() == "cali"){
+    if(cabeceraCiudadR[1].head == NULL)
+      cabeceraCiudadR[1].head = &delSenior;
+    else{
+      aux = cabeceraCiudadR[1].head; 
+      cabeceraCiudadR[1].head = &delSenior;
+      delSenior.sigCiudadR = aux; 
+    }
+  }
+
+  if(delSenior.p->getCiudadR() == "medellin"){
+    if(cabeceraCiudadR[2].head == NULL)
+      cabeceraCiudadR[2].head = &delSenior;
+    else{
+      aux = cabeceraCiudadR[2].head; 
+      cabeceraCiudadR[2].head = &delSenior;
+      delSenior.sigCiudadR = aux; 
+    }
+  }
+
+  if(delSenior.p->getCiudadR() == "barranquilla"){
+    if(cabeceraCiudadR[3].head == NULL)
+      cabeceraCiudadR[3].head = &delSenior;
+    else{
+      aux = cabeceraCiudadR[3].head; 
+      cabeceraCiudadR[3].head = &delSenior;
+      delSenior.sigCiudadR = aux; 
+    }
+  }
+}
+
+void Multilista ::  ordenarEps(Personita delSenior){
+  Personita *aux = new Personita(); //funciona
+  if(delSenior.p->getNombreEps() == "compensar"){
+    if(cabeceraEps[0].head == NULL)
+      cabeceraEps[0].head = &delSenior;
+    else{
+      aux = cabeceraEps[0].head; 
+      cabeceraEps[0].head = &delSenior;
+      delSenior.sigEps = aux; 
+    }
+  }
+
+  if(delSenior.p->getNombreEps() == "sanitas"){
+    if(cabeceraEps[1].head == NULL)
+      cabeceraEps[1].head = &delSenior;
+    else{
+      aux = cabeceraEps[1].head; 
+      cabeceraEps[1].head = &delSenior;
+      delSenior.sigEps = aux; 
+    }
+  }
+
+  if(delSenior.p->getNombreEps() == "nueva"){
+    if(cabeceraEps[2].head == NULL)
+      cabeceraEps[2].head = &delSenior;
+    else{
+      aux = cabeceraEps[2].head; 
+      cabeceraEps[2].head = &delSenior;
+      delSenior.sigEps = aux; 
+    }
+  }
+
+  if(delSenior.p->getNombreEps() == "cafeSalud"){
+    if(cabeceraEps[3].head == NULL)
+      cabeceraEps[3].head = &delSenior;
+    else{
+      aux = cabeceraEps[3].head; 
+      cabeceraEps[3].head = &delSenior;
+      delSenior.sigEps = aux; 
+    }
+  }
+
+  if(delSenior.p->getNombreEps() == "famisanar"){
+    if(cabeceraEps[4].head == NULL)
+      cabeceraEps[4].head = &delSenior;
+    else{
+      aux = cabeceraEps[4].head; 
+      cabeceraEps[4].head = &delSenior;
+      delSenior.sigEps = aux; 
+    }
+  }
+}
+
+Lista<Persona> Multilista::listaSexo(char sexo){
+  cout<<"ant declarar"<<endl;
+  Lista<Persona> listaPersona = Lista<Persona>();
+  cout<<"des declarar"<<endl;
+  if(sexo == 'm'){
+  cout<<"1"<<endl;
+    Personita *aux = cabeceraSexo[0].head;
+  cout<<"cabecera"<<cabeceraSexo[0].head->p->getSexo()<<endl;
+    while(aux != NULL){
+      cout<<"3"<<endl;
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigSexo;
+    }
+    
+  }
+
+  if(sexo == 'f'){
+    cout<<"4"<<endl;
+    Personita *aux = cabeceraSexo[1].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigSexo;
+    }
+  }
+  return listaPersona;
+}
+
+Lista<Persona> Multilista::listaEdad(int num){
+  Lista<Persona> listaPersona;
+  if(num == 0){
+    Personita *aux = cabeceraEdad[0].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 1){
+    Personita *aux = cabeceraEdad[1].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 2){
+    Personita *aux = cabeceraEdad[2].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 3){
+    Personita *aux = cabeceraEdad[3].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 4){
+    Personita *aux = cabeceraEdad[4].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 5){
+    Personita *aux = cabeceraEdad[5].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 6){
+    Personita *aux = cabeceraEdad[6].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+
+  if(num == 7){
+    Personita *aux = cabeceraEdad[7].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEdad;
+    }
+  }
+  return listaPersona;
+}
+
+Lista<Persona> Multilista::listaActividad(int num){
+  Lista<Persona> listaPersona;
+  if(num == 0){
+    Personita *aux = cabeceraActividad[0].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigActividad;
+    }
+  }
+
+  if(num == 1){
+    Personita *aux = cabeceraActividad[1].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigActividad;
+    }
+  }
+
+  if(num == 2){
+    Personita *aux = cabeceraActividad[2].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigActividad;
+    }
+  }
+
+  if(num == 3){
+    Personita *aux = cabeceraActividad[3].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigActividad;
+    }
+  }
+
+  if(num == 4){
+    Personita *aux = cabeceraActividad[4].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigActividad;
+    }
+  }
+
+  if(num == 5){
+    Personita *aux = cabeceraActividad[5].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigActividad;
+    }
+  }
+  return listaPersona;
+}
+  
+Lista<Persona> Multilista::listaPaisN(int num){
+  Lista<Persona> listaPersona;
+  if(num == 0){
+    Personita *aux = cabeceraPaisN[0].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigPaisN;
+    }
+  }
+
+  if(num == 1){
+    Personita *aux = cabeceraPaisN[1].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigPaisN;
+    }
+  }
+
+  if(num == 2){
+    Personita *aux = cabeceraPaisN[2].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigPaisN;
+    }
+  }
+
+  if(num == 3){
+    Personita *aux = cabeceraPaisN[3].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigPaisN;
+    }
+  }
+  return listaPersona;
+}
+
+Lista<Persona> Multilista::listaCiudadR(int num){
+  Lista<Persona> listaPersona;
+  if(num == 0){
+    Personita *aux = cabeceraCiudadR[0].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigCiudadR;
+    }
+  }
+
+  if(num == 1){
+    Personita *aux = cabeceraCiudadR[1].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigCiudadR;
+    }
+  }
+
+  if(num == 2){
+    Personita *aux = cabeceraCiudadR[2].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigCiudadR;
+    }
+  }
+
+  if(num == 3){
+    Personita *aux = cabeceraCiudadR[3].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigCiudadR;
+    }
+  }
+  return listaPersona;
+}
+
+
+Lista<Persona> Multilista::listaEps(int num){
+  Lista<Persona> listaPersona;
+  if(num == 0){
+    Personita *aux = cabeceraEps[0].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEps;
+    }
+  }
+
+  if(num == 1){
+    Personita *aux = cabeceraEps[1].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEps;
+    }
+  }
+
+  if(num == 2){
+    Personita *aux = cabeceraEps[2].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEps;
+    }
+  }
+
+  if(num == 3){
+    Personita *aux = cabeceraEps[3].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEps;
+    }
+  }
+
+  if(num == 4){
+    Personita *aux = cabeceraEps[4].head;
+    while(aux != NULL){
+      listaPersona.insertarInicio(*aux->p);
+      aux = aux->sigEps;
+    }
+  }
+  return listaPersona;
+}
+#endif

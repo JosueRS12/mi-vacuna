@@ -8,6 +8,7 @@
 #include "./models/files/filePersona.h"
 #include "./dataStructures/multilista.h"
 #include "./models/Persona.h"
+#include <conio.h>
 //#include <./view>
   //cout.fill('-');
   //cout<<setw(15)<<" holaaa"<<endl;
@@ -16,7 +17,7 @@
 using namespace std;
 int main (){
   int op, idClave;
-  Multilista *multiPersona = NULL;
+  Multilista *multiPersona = NULL;//
   Persona *p=NULL; //=>apuntador persona auxiliar...
   ARBOL<int,Persona> *arbolRN = NULL; //mirar si se puede hacer como apuntador
   FilePersona filePersona;
@@ -40,10 +41,36 @@ int main (){
         switch(menuMinisterio()){
           case 1:
             {
-              multiPersona = simulacion(arbolRN); 
+              multiPersona = cargarMultilista(arbolRN); 
+              //mostramos todas las listas
+              //se crea una lista que almacene eso
+              //cout<<"igual"<<endl;
+              Lista<Persona> eps;
+              Lista<Persona> edad;
+              edad = multiPersona->listaEdad(4);
+              edad.mostrarLista();
+              cout<<"-------"<<endl;
+              eps = multiPersona->listaEps(0);
+              eps.mostrarLista();
+              //multiPersona->imprimirArray();
+              //multiPersona.
+              //cout<<"separacion"<<endl;
+              //edad = multiPersona->listaEdad(1);
+              //multiPersona->listaEdad('f');
+              //multiPersona->listaSexo('f');
+              //multiPersona->listaSexo('f');
+              //multiPersona->listaSexo('f');
+              //multiPersona->listaSexo('f');
+              //multiPersona->listaSexo('f');
+              //multiPersona->listaSexo('f');
+              getch();
+              system("clear");
             }
             break;
-          case 2://consulta
+          case 2:
+            {
+              consultas(arbolRN);
+            }
             break;
           default: cout<<"Que sueño"<<endl;
             break;

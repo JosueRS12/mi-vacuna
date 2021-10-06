@@ -2,8 +2,7 @@
 2. ips persona... toca ponerselo?
 4. CRUD registro eps.
 5. CRUD registro ips.
-6. simulación => se rompe.
-7. probar multilista => se rompe.
+6. simulación => asignación aleatoria.
 8. probar consultas.
 9. lectura csv eps e ips 
 10. tabla de rompimiento par relación ips - persona, eps - ips...
@@ -16,6 +15,10 @@ ready{
   - lectura csv => persona (arbol, pila).
   - pila.
   - ips (getters,set)
+  - multilistas{
+    reaaaaaaaaaady
+  }
+  - consulta1
 }
 
 
