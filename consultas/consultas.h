@@ -4,38 +4,44 @@
 #include "../models/Persona.h"
 
 
-
-
-//eps y rango de edad
-int *consulta1(Lista<Persona> lista){ //lista rango 0, 1, 2, 3, 4 ...
-  int *eps = new int[5]; 
-  eps[0] = 0;
-  eps[1] = 0;
-  eps[2] = 0;
-  eps[3] = 0;
-  eps[4] = 0;
-  eps[5] = 0;
-  Nodo<Persona> *p = lista.getHead();
-  //[<20,20-25,5,92123]
+//Listado de los nombres y apellidos de aquellos que tienen un país de nacimiento dado, clasificándolos por ciudad de residencia y EPS a la que pertenecen.MINISTERIO
+Lista<Persona> cruceListas(Lista<Persona> lista,Lista<Persona> lista2){
+  Nodo<Persona> *p = lista2.getHead();
+  Lista<Persona> response = Lista<Persona>(); 
   while(p!=NULL){
-    if(p->info.getNombreEps() == "compensar"){
-      eps[0]+=1;
-    }
-    if(p->info.getNombreEps() == "sanitas"){
-      eps[1]++;
-    }
-    if(p->info.getNombreEps() == "nueva"){
-      eps[2]++;
-    }
-    if(p->info.getNombreEps() == "cafeSalud"){
-      eps[3]++;
-    }
-    if(p->info.getNombreEps() == "famisanar"){
-      eps[4]++;
+    if(lista.existe(p->info)){
+      response.insertarInicio(p->info); 
     }
     p=p->sig;
   }
-  return eps;
+  return response; 
+}
+
+void mostrarVarios(Lista<Persona> lista){
+  Nodo<Persona> *p = lista.getHead();
+  while(p!=NULL){
+    cout<<"***********"<<endl;
+    cout<<p->info.getCiudadR()<<endl; 
+    cout<<p->info.getTipoVacuna()<<endl; 
+    p=p->sig;
+    cout<<"***********"<<endl;
+  }
+}
+
+void mostrarNombresApellidos(Lista<Persona> lista){
+  Nodo<Persona> *p = lista.getHead();
+  while(p!=NULL){
+    cout<<p->info.getNombre()<<" "<<p->info.getApellido()<<endl; 
+    p=p->sig;
+  }
+}
+
+
+//eps y rango de edad
+void consulta4(Lista<Persona> listaEps, int tamLista){ //lista rango 0, 1, 2, 3, 4 ...
+  if(listaEps.tamLista() >= tamLista){
+    cout<<"Tamaño: "<<listaEps.tamLista()<<endl;
+  }
 }
 
 

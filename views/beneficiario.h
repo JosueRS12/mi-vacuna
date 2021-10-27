@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "../models/Persona.h"
 #include "../models/date.h"
+#include "../dataStructures/arbolesRN.h"
 #include <string>
 
 using namespace std;
@@ -24,7 +25,9 @@ int menuBeneficiario(){
 }
 
 
-bool beneficiarioEliminar(Persona *p){
+bool beneficiarioEliminar(Persona *p, ARBOL<int,Persona> *arbolRN){
+  NODO<int,Persona> *nodo = arbolRN->buscarNodo2(p->getNumeroId());
+  arbolRN->borrar_NODO(nodo, arbolRN->raiz_arbol());
   return true;
 }
 

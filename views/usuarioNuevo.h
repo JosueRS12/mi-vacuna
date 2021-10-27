@@ -63,7 +63,7 @@ Persona usuarioNuevo(){
   p.setCiudadN(readStr);
   cout<<"Digite el país de nacimiento"<<endl;
   cout<<"1) Colombia"<<endl;
-  cout<<"2) Francia"<<endl;
+  cout<<"2) España"<<endl;
   cout<<"3) Venezuela"<<endl;
   cout<<"4) Brasil"<<endl;
   cin>>op;
@@ -75,7 +75,7 @@ Persona usuarioNuevo(){
       }break;
     case 2:
       {
-        p.setPaisN("Francia");
+        p.setPaisN("españa");
       }break;
     case 3:
       {

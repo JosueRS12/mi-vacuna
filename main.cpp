@@ -25,6 +25,8 @@ int main (){
   arbolRN = filePersona.readFile();
 
   do{
+    getch();
+    cout<<"----------------------"<<endl;
     cout<<"Mi Vacuna"<<endl;
     cout<<"Bienvenido, ¿Bajo que rol ingresa?"<<endl;
     cout<<"Digite la opción deseada"<<endl;
@@ -42,27 +44,14 @@ int main (){
           case 1:
             {
               multiPersona = cargarMultilista(arbolRN); 
-              //mostramos todas las listas
-              //se crea una lista que almacene eso
-              //cout<<"igual"<<endl;
-              Lista<Persona> eps;
-              Lista<Persona> edad;
-              edad = multiPersona->listaEdad(4);
-              edad.mostrarLista();
-              cout<<"-------"<<endl;
-              eps = multiPersona->listaEps(0);
-              eps.mostrarLista();
-              //multiPersona->imprimirArray();
-              //multiPersona.
-              //cout<<"separacion"<<endl;
-              //edad = multiPersona->listaEdad(1);
-              //multiPersona->listaEdad('f');
-              //multiPersona->listaSexo('f');
-              //multiPersona->listaSexo('f');
-              //multiPersona->listaSexo('f');
-              //multiPersona->listaSexo('f');
-              //multiPersona->listaSexo('f');
-              //multiPersona->listaSexo('f');
+              cout<<"sistema cargado"<<endl;
+              //Lista<Persona> eps;
+              //Lista<Persona> edad;
+              //edad = multiPersona->listaEdad(4);
+              //edad.mostrarLista();
+              //cout<<"-------"<<endl;
+              //eps = multiPersona->listaEps(0);
+              //eps.mostrarLista();
               getch();
               system("clear");
             }
@@ -84,7 +73,7 @@ int main (){
         switch(menuBeneficiario()){
           case 1:beneficiarioModificar(p); 
             break;
-          case 2:beneficiarioEliminar(p);
+          case 2:beneficiarioEliminar(p,arbolRN);
             break;
           case 3://consultarUsuario
             break;

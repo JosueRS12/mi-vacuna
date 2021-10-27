@@ -41,6 +41,7 @@ class ARBOL{
     NODO<T,S> *rotacionDobleIzq(NODO<T,S> *P);
     NODO<T,S> *rotacionDobleDer(NODO<T,S> *P);
     S *buscarNodo(T);
+    NODO<T,S> *buscarNodo2(T);
     Pila<S> *obtenerPila(NODO<T,S> *p);
     void inorden(NODO<T,S> *);
     void preorden(NODO<T,S> *);
@@ -48,6 +49,19 @@ class ARBOL{
     void destruir(NODO<T,S> *p);
     //~ARBOL();
 };
+
+template<class T, class S>
+NODO<T,S> *ARBOL<T, S>::buscarNodo2(T n){
+  NODO<T,S> *q, *p=raiz;
+  if(n == raiz->clave)
+    return raiz;
+  q=buscar(n,&p,NULL); 
+  if(q->izq->clave == n)
+    return q->izq;
+  else
+    return q->der;
+}
+
 template<class T, class S>
 NODO<T,S> *ARBOL<T, S>::buscarPadreNuevo(T n, NODO<T,S> *p, NODO<T,S> *q){
   if (p -> clave == -3) 

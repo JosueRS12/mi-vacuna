@@ -8,6 +8,7 @@
 using namespace std;
 
 class Persona{
+  string ips;
   string nombre;
   string apellido;
   string tipoId;
@@ -30,6 +31,7 @@ class Persona{
 
   public:
   Persona(){
+    ips = " ";
     nombre = " ";
     apellido = " ";
     tipoId = " ";
@@ -50,6 +52,9 @@ class Persona{
     fechaPrimeraD = Date();
     fechaSegundaD = Date();
   }
+
+  string getIps();
+  void setIps(string ips); 
   string getNombre();
   void setNombre(string nombre); 
   string getApellido(); 
@@ -89,6 +94,14 @@ class Persona{
   void setFechaSegundaD(Date date); 
   Date getFechaSegundaD(); 
 };
+
+string Persona :: getIps() {
+  return nombre;
+}
+
+void Persona :: setIps(string ips) {
+    this->ips = ips;
+}
 
 string Persona :: getNombre() {
   return nombre;

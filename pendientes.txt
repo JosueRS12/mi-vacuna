@@ -3,7 +3,10 @@
 4. CRUD registro eps.
 5. CRUD registro ips.
 6. simulación => asignación aleatoria.
-8. probar consultas.
+8. consultas{
+    4,
+    5
+  }
 9. lectura csv eps e ips 
 10. tabla de rompimiento par relación ips - persona, eps - ips...
 
@@ -19,6 +22,8 @@ ready{
     reaaaaaaaaaady
   }
   - consulta1
+  - consulta2
+  - consulta3
 }
 
 

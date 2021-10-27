@@ -28,10 +28,9 @@ class Multilista{
   Cabecera *cabeceraSexo, *cabeceraEdad, *cabeceraActividad, *cabeceraPaisN, *cabeceraCiudadR, *cabeceraEps;
   Personita *listaPersonitas; 
   int tam;
-  //int posLibre;
+  int posLibre;
 
   public:
-  int posLibre;
   Multilista(int tam){
     posLibre = 0;
     listaPersonitas = new Personita[tam];
@@ -62,7 +61,7 @@ class Multilista{
     cabeceraActividad[4] = {-1, "salud"};
     cabeceraActividad[5] = {-1, "otro"};
     cabeceraPaisN[0] = {-1, "colombia"};
-    cabeceraPaisN[1] = {-1, "francia"};
+    cabeceraPaisN[1] = {-1, "españa"};
     cabeceraPaisN[2] = {-1, "venezuela"};
     cabeceraPaisN[3] = {-1, "brasil"};
     cabeceraCiudadR[0] = {-1, "bogota"};
@@ -321,7 +320,7 @@ void Multilista :: ordenarPaisN(){
     }
   }
 
-  if(listaPersonitas[posLibre].p.getPaisN() == "francia"){
+  if(listaPersonitas[posLibre].p.getPaisN() == "españa"){
     if(cabeceraPaisN[1].head == -1){
       cabeceraPaisN[1].head = posLibre;
       listaPersonitas[posLibre].sigPaisN = -1;

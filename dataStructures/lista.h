@@ -88,7 +88,7 @@ template <class T>
 bool Lista<T> :: existe(T inf){
   Nodo<T> *nodo = head;
   while(nodo != NULL){
-    if(nodo->info = inf)
+    if(nodo->info.getNumeroId() == inf.getNumeroId())
       return true;
     nodo = nodo -> sig;
   }

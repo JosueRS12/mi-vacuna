@@ -1,5 +1,5 @@
-#ifndef FILEPERSONA_H
-#define FILEPERSONA_H
+#ifndef FILEIPS_H
+#define FILEIPS_H
 #include <stdio.h>
 #include <string.h>
 #include <iostream>
@@ -67,7 +67,6 @@ void FilePersona :: createFile(Pila<Persona> pila){
 
 ARBOL<int,Persona> *FilePersona :: readFile(){
     // File pointer
-    string eps[5]={"compensar", "sanitas", "nueva", "cafeSalud", "famisanar"};
     ifstream file("./files/persona.csv");
     string line, word;
     Pila<string> pila;
@@ -81,35 +80,21 @@ ARBOL<int,Persona> *FilePersona :: readFile(){
           // of a row to a vector
           pila.push(word);
       }
-
       date.setYear( stoi(pila.pop()) ); //year
       date.setMonth( stoi(pila.pop()) ); //month
       date.setDay( stoi(pila.pop()) ); //day
-      if(persona.getFechaPrimeraD().getYear() != 0){
-        date.setYear(2022); //year
-        date.setMonth( rand() % 12 + 1); //month
-        date.setDay(rand() % 31 + 1 ); //day
-      }
       persona.setFechaSegundaD(date); 
-
       date.setYear( stoi(pila.pop()) ); //year
       date.setMonth( stoi(pila.pop()) ); //month
       date.setDay( stoi(pila.pop()) ); //day
-      if(date.getYear() == 0){
-        date.setYear(2021); //year
-        date.setMonth( rand() % 12 + 1); //month
-        date.setDay(rand() % 31 + 1 ); //day
-      }
-
       persona.setFechaPrimeraD(date); 
 
       date.setYear( stoi(pila.pop()) ); //year
       date.setMonth( stoi(pila.pop()) ); //month
       date.setDay( stoi(pila.pop()) ); //day
       persona.setFechaN(date); //month
-      
-      if(pila.pop()== " ")
-        persona.setTipoVacuna( eps[ rand() % 6 ]); 
+
+      persona.setTipoVacuna( pila.pop() ); 
       persona.setNombreEps( pila.pop() ); 
       persona.setActividad( pila.pop() ); 
       persona.setBarrio( pila.pop() ); 
@@ -126,19 +111,7 @@ ARBOL<int,Persona> *FilePersona :: readFile(){
       persona.setTipoId( pila.pop() ); 
       persona.setApellido( pila.pop() ); 
       persona.setNombre( pila.pop() );
-      if(persona.getNombreEps() == "nueva"){
-        if(persona.getCiudadR() == "medellin")
-          persona.setIps("retiro");
-        if(persona.getCiudadR() == "bogota")
-          persona.setIps("rosales");
-      } 
-
-      if(persona.getNombreEps() == "sanitas"){
-        if(persona.getCiudadR() == "barranquilla")
-          persona.setIps("marinaVillage");
-        if(persona.getCiudadR() == "cali")
-          persona.setIps("lido");
-      } 
+    
       arbolRN.ins_arbol(persona.getNumeroId(),persona);
     }
     cout<<"salido fichero"<<endl;
